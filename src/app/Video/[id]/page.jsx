@@ -36,7 +36,7 @@ export default function VideoPage() {
           <RealTimeViews views={video.views} />
           <Link href="/" className="text-blue-500 hover:underline mt-4 block">Back to Home</Link>
         </div>
-        <div className="w-FULL md:w-2/5 lg:w-1/3 mt-8 md:mt-0 md:ml-6">
+        <div className="w-full md:w-2/5 lg:w-1/3 mt-8 md:mt-0 md:ml-6">
           {Array.isArray(videos) ? videos.map((video, index) => (
             <div key={index} className="border flex flex-col cursor-pointer rounded-lg p-4 mb-4 overflow-hidden">
               <Link href={`/Video/${index}`} className="flex flex-col md:flex-row no-underline">

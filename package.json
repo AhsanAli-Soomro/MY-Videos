@@ -13,6 +13,8 @@
     "chartjs-adapter-date-fns": "^3.0.0",
     "chartjs-plugin-streaming": "^2.0.0",
     "next": "14.2.5",
+    "q": "^1.5.1",
+    "qs": "^6.12.3",
     "react": "^18",
     "react-dom": "^18"
   },
