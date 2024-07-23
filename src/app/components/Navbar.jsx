@@ -1,4 +1,5 @@
-"use client"
+// components/Navbar.jsx
+'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
 
@@ -31,7 +32,10 @@ const Navbar = () => {
               <Link href="/">Videos</Link>
             </li>
             <li className="lg:px-4 py-2 lg:py-0">
-              <Link href="/hire-me">Login</Link>
+              <Link href="/Chart">Charts</Link>
+            </li>
+            <li className="lg:px-4 py-2 lg:py-0">
+              <Link href="/Analytics">Analytics</Link>
             </li>
           </ul>
         </div>

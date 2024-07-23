@@ -1,10 +1,11 @@
 // app/video/[id]/page.jsx
 'use client';
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { VideosContext } from '@/app/contexts/VideoContext';
 import Link from 'next/link';
 import RealTimeViews from '@/app/components/RealTimeViews';
+import VideoPlayer from '@/app/components/VideoPlayer';
 
 export default function VideoPage() {
   const { id } = useParams();
@@ -12,11 +13,47 @@ export default function VideoPage() {
   const video = videos[parseInt(id)];
   const hasIncremented = useRef(false);
 
+  const [totalPlayTime, setTotalPlayTime] = useState(0);
+  const [views, setViews] = useState(0);
+
+  useEffect(() => {
+    if (video) {
+      const savedPlayTime = localStorage.getItem(`playTime-${video.id}`);
+      if (savedPlayTime) {
+        setTotalPlayTime(parseInt(savedPlayTime, 10));
+      }
+
+      const savedViews = localStorage.getItem(`views-${video.id}`);
+      if (savedViews) {
+        setViews(parseInt(savedViews, 10));
+      }
+    }
+  }, [video]);
+
   const handlePlay = () => {
     if (!hasIncremented.current) {
       incrementViews(parseInt(id));
       hasIncremented.current = true;
+      const currentViews = localStorage.getItem(`views-${video.id}`);
+      const newViews = currentViews ? parseInt(currentViews, 10) + 1 : 1;
+      localStorage.setItem(`views-${video.id}`, newViews.toString());
+      setViews(newViews);
+
+      // Update the view data for the chart
+      const now = new Date();
+      const newEntry = { x: now, y: newViews };
+      const viewData = localStorage.getItem(`viewData-${video.id}`);
+      const updatedData = viewData ? [...JSON.parse(viewData), newEntry] : [newEntry];
+      localStorage.setItem(`viewData-${video.id}`, JSON.stringify(updatedData));
     }
+  };
+
+  const handleTimeUpdate = (elapsedTime) => {
+    setTotalPlayTime((prevTime) => {
+      const newTime = prevTime + elapsedTime;
+      localStorage.setItem(`playTime-${video.id}`, newTime.toString());
+      return newTime;
+    });
   };
 
   if (!video) return <div>Loading...</div>;
@@ -27,14 +64,16 @@ export default function VideoPage() {
         <div className="w-full md:w-3/5 lg:w-2/3">
           <h1 className="text-2xl md:text-3xl font-bold mb-4">{video.title}</h1>
           <div className="mb-4">
-            <video controls className="w-full" onPlay={handlePlay} autoPlay>
-              <source src={video.videoUrl} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+            <VideoPlayer video={video} onPlay={handlePlay} onTimeUpdate={handleTimeUpdate} />
           </div>
           <p className="text-gray-600 mb-4">{video.description}</p>
-          <RealTimeViews views={video.views} />
-          <Link href="/" className="text-blue-500 hover:underline mt-4 block">Back to Home</Link>
+          <RealTimeViews views={views} />
+          <div className="font-bold">
+            Total Play Time: {Math.floor(totalPlayTime / 60)}m {Math.floor(totalPlayTime % 60)}s
+          </div>
+          <Link href="/" className="text-blue-500 hover:underline mt-4 block">
+            Back to Home
+          </Link>
         </div>
         <div className="w-full md:w-2/5 lg:w-1/3 mt-8 md:mt-0 md:ml-6">
           {Array.isArray(videos) ? videos.map((video, index) => (

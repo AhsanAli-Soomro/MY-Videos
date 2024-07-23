@@ -1,13 +1,19 @@
-import React from 'react'
-import RealTimeChart from '../components/RealTimeChart'
+// pages/charts.jsx
 
-function page() {
+'use client';
+import React, { useContext } from 'react';
+import { VideosContext } from '@/app/contexts/VideoContext';
+import ViewsBarChart from '../components/ViewsBarChart';
+
+const ChartsPage = () => {
+  const { videos } = useContext(VideosContext);
+
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">Real-Time Views Chart</h1>
-      <RealTimeChart />
+      <h1 className="text-3xl font-bold mb-6">Real-Time Video Views Charts</h1>
+      <ViewsBarChart />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default ChartsPage;
