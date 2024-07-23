@@ -17,7 +17,6 @@ export default function RootLayout({ children }) {
         <VideosProvider>
           <Navbar />
           {children}
-
         </VideosProvider>
       </body>
     </html>

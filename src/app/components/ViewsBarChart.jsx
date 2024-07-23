@@ -18,7 +18,6 @@ const ViewsBarChart = () => {
       return storedViews ? parseInt(storedViews, 10) : 0;
     });
 
-    // Generate unique colors for each bar
     const generateColors = (num) => {
       const colors = [];
       for (let i = 0; i < num; i++) {
@@ -47,6 +46,7 @@ const ViewsBarChart = () => {
         ],
       },
       options: {
+        maintainAspectRatio: false,
         scales: {
           y: {
             beginAtZero: true,
@@ -71,8 +71,7 @@ const ViewsBarChart = () => {
   }, [videos]);
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-2">Video Views</h2>
+    <div className="chart-container" style={{ height: '100%' }}>
       <canvas ref={chartRef} />
     </div>
   );
