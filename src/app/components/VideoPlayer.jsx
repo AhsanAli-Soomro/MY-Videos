@@ -34,7 +34,7 @@ const VideoPlayer = ({ video, onPlay, onTimeUpdate }) => {
   }, [onPlay, onTimeUpdate]);
 
   return (
-    <video ref={videoRef} width="600" controls autoPlay>
+    <video ref={videoRef} width="800" controls autoPlay>
       <source src={video.videoUrl} type="video/mp4" />
       Your browser does not support the video tag.
     </video>

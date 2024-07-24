@@ -37,6 +37,9 @@ const Navbar = () => {
             <li className="lg:px-4 py-2 lg:py-0">
               <Link href="/Analytics">Analytics</Link>
             </li>
+            {/* <li className="lg:px-4 py-2 lg:py-0">
+              <Link href="/Stepper">Stepper</Link>
+            </li> */}
           </ul>
         </div>
       </div>
